@@ -1,0 +1,17 @@
+<div class="wrapper create-todo">
+  <h2 class="wrapper-title create-todo__title">Create to-do</h2>
+  <input
+    type="text"
+    placeholder="Write your todo here"
+    class="input-custom"
+    #todoText
+    (keyup.enter)="createTodo(todoText.value); todoText.value = ''"
+  />
+  <button
+    type="button"
+    class="btn-custom"
+    (click)="createTodo(todoText.value); todoText.value = ''"
+  >
+    Create
+  </button>
+</div>

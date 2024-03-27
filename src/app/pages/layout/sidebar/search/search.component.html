@@ -1,0 +1,13 @@
+<div class="wrapper search-todo">
+  <h2 class="wrapper-title search-todo__title">Search to-do</h2>
+  <input
+    type="text"
+    placeholder="Search todo here"
+    class="input-custom"
+    #todoText
+    (keyup.enter)="searchTodo(todoText.value)"
+  />
+  <button type="button" class="btn-custom btn-custom--outline" (click)="searchTodo(todoText.value)">
+    Search
+  </button>
+</div>

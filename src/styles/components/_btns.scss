@@ -1,0 +1,15 @@
+.btn-custom {
+  border: none;
+  text-align: center;
+  padding: 1.2rem 0rem;
+  border-radius: 0.8rem;
+  background-color: $organizepro-blue;
+  color: $organizepro-white;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  &--outline {
+    background-color: $organizepro-white;
+    color: $organizepro-blue;
+    border: 0.1rem solid $organizepro-blue;
+  }
+}

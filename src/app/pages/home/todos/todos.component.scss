@@ -1,0 +1,33 @@
+@import '../../../../styles/abstracts/variables';
+
+.todos-container {
+  min-height: 62.2rem;
+  max-height: 62.2rem;
+  overflow: hidden;
+}
+
+.todos {
+  &__title {
+    margin-bottom: 1.7rem;
+  }
+  &__content {
+    height: 100%;
+    overflow-y: auto;
+    min-height: 50rem;
+    max-height: 50rem;
+    &::-webkit-scrollbar {
+      width: 0.5rem; /* Width of the scrollbar */
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #f4f4f4; /* Color of the scrollbar handle */
+      border-radius: 1rem; /* Border radius of the scrollbar handle */
+    }
+    .todo {
+      &:first-child,
+      &:last-child {
+        margin: 0rem;
+      }
+      margin: 1rem 0;
+    }
+  }
+}

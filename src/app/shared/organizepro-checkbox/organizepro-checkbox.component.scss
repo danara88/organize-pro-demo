@@ -1,0 +1,35 @@
+@import '../../../styles/abstracts/variables';
+
+.checkbox {
+  display: flex;
+  input[type='checkbox'] {
+    display: none;
+    &:checked + label::before {
+      content: '\f00c';
+      background-color: $organizepro-green-1;
+      font-family: FontAwesome;
+      color: $organizepro-white;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  label {
+    // position: relative;
+    // bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &::before {
+      content: '';
+      // position: absolute;
+      width: 3.2rem;
+      height: 3.2rem;
+      left: 0rem;
+      top: 0rem;
+      border-radius: 50rem;
+      background-color: white;
+    }
+  }
+}

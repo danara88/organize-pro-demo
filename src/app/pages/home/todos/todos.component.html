@@ -1,0 +1,10 @@
+<div class="todos-container wrapper">
+  <div class="todos">
+    <h2 class="wrapper-title todos__title">To-Do List</h2>
+    <div class="todos__content">
+      <div class="todo" *ngFor="let todo of todos">
+        <organizepro-todo [todo]="todo"></organizepro-todo>
+      </div>
+    </div>
+  </div>
+</div>

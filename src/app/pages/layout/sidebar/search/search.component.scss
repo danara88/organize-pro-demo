@@ -1,0 +1,8 @@
+.search-todo {
+  display: flex;
+  flex-direction: column;
+  padding-top: 3.5rem;
+  &__title {
+    margin-bottom: 1.5rem;
+  }
+}

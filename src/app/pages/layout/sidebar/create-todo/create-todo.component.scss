@@ -1,0 +1,7 @@
+.create-todo {
+  display: flex;
+  flex-direction: column;
+  &__title {
+    margin-bottom: 1.5rem;
+  }
+}

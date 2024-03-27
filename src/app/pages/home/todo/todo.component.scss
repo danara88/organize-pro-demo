@@ -1,0 +1,105 @@
+@import '../../../../styles/abstracts/variables';
+.todo {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  &__section {
+    display: flex;
+    margin: 0 1rem;
+    align-items: center;
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.6rem;
+    height: 5rem;
+    color: $organizepro-purple-1;
+    font-size: 1.6rem;
+    background-color: $organizepro-purple-2;
+    &:first-child,
+    &:last-child {
+      margin: 0rem;
+    }
+    &-date {
+      @media (max-width: 1500px) {
+        width: 30%;
+      }
+      @media (max-width: 1400px) {
+        width: 30%;
+      }
+    }
+    &-title {
+      @media (max-width: 1500px) {
+        width: 60%;
+      }
+      @media (max-width: 1020px) {
+        width: 80%;
+      }
+    }
+    &-left {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    &-space-between {
+      justify-content: space-between;
+    }
+    button {
+      border: none;
+      background: none;
+      outline: none;
+      i {
+        color: $organizepro-purple-1;
+        cursor: pointer;
+        font-size: 1.67rem;
+      }
+    }
+  }
+  &__title {
+    padding: 0 2rem;
+    &--crossed {
+      span {
+        text-decoration: line-through;
+      }
+    }
+    input {
+    }
+  }
+  &__checkbox {
+    input[type='checkbox'] {
+      display: none;
+      &:checked + label::before {
+        content: '\f00c';
+        background-color: $organizepro-green-1;
+        font-family: FontAwesome;
+        color: $organizepro-white;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    label {
+      position: relative;
+      bottom: 0.7rem;
+      cursor: pointer;
+      &::before {
+        content: '';
+        position: absolute;
+        width: 3.2rem;
+        height: 3.2rem;
+        left: 0rem;
+        top: 0rem;
+        border-radius: 50rem;
+        background-color: white;
+      }
+    }
+  }
+}
+
+.edit-input {
+  border: none;
+  background-color: $organizepro-purple-2;
+  color: $organizepro-purple-1;
+  outline: none;
+  font-size: 1.6rem;
+  width: 100%;
+}
