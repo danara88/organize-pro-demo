@@ -8,10 +8,9 @@ describe('OrganizeproCheckboxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrganizeproCheckboxComponent]
-    })
-    .compileComponents();
-    
+      imports: [OrganizeproCheckboxComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(OrganizeproCheckboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
