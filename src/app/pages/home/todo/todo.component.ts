@@ -1,5 +1,11 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Todo } from '../../../models/todo';
+import { Store } from '@ngrx/store';
+import {
+  deleteTodoAction,
+  editTodoAction,
+  toggleTodoAction,
+} from '../../../store/todo/todos.actions';
 
 @Component({
   selector: 'organizepro-todo',
@@ -8,9 +14,9 @@ import { Todo } from '../../../models/todo';
 })
 export class TodoComponent {
   @Input() public todo: Todo = new Todo('');
-  @ViewChild('todoTextEdit') public todoTextEditInput: ElementRef = new ElementRef(null);
-  public isTodoChecked: boolean = false;
   public isEdit: boolean = false;
+
+  constructor(private store: Store) {}
 
   /**
    * @memberof TodoComponent
@@ -22,21 +28,17 @@ export class TodoComponent {
     if (!todoTextUpdated) {
       return;
     }
-    // Edit todo here
-    console.log('Edit todo: ', todoTextUpdated);
-    this.todo.title = todoTextUpdated;
     this.isEdit = false;
+    this.store.dispatch(editTodoAction({ currentTodo: this.todo, newTitle: todoTextUpdated }));
   }
 
   /**
    * @memberof TodoComponent
    * @method handleTodoCheckbox
    * @description Method to handle the todo checkbox.
-   * @param isChecked
    */
-  public handleTodoCheckbox(isChecked: boolean): void {
-    this.isTodoChecked = isChecked;
-    console.log({ isTodoChecked: this.isTodoChecked });
+  public handleTodoCheckbox(): void {
+    this.store.dispatch(toggleTodoAction({ todoToUpdate: this.todo }));
   }
 
   /**
@@ -46,7 +48,6 @@ export class TodoComponent {
    * @param id
    */
   public deleteTodo(id: number): void {
-    // Delete todo here ...
-    console.log('Delete todo:', { id });
+    this.store.dispatch(deleteTodoAction({ id }));
   }
 }

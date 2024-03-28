@@ -18,6 +18,11 @@ export class OrganizeproCheckboxComponent {
   @Input() public id: number = 0;
 
   /**
+   * If true, checkbox is checked
+   */
+  @Input() checked: boolean = false;
+
+  /**
    * Emit boolean value if checkbox is checked or not
    */
   @Output() public isChecked: EventEmitter<boolean> = new EventEmitter(false);
