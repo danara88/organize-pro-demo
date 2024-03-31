@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Todo } from '../../../../models/todo';
-import { Store } from '@ngrx/store';
-import { createTodoAction } from '../../../../store/todo/todos.actions';
+import { TodoFacade } from '../../../../facades/todo.facade';
 
 @Component({
   selector: 'organizepro-create-todo',
@@ -9,7 +8,8 @@ import { createTodoAction } from '../../../../store/todo/todos.actions';
   styleUrl: './create-todo.component.scss',
 })
 export class CreateTodoComponent {
-  constructor(private store: Store) {}
+  constructor(private todoFacade: TodoFacade) {}
+
   /**
    * @memberof CreateTodoComponent
    * @method createTodo
@@ -20,9 +20,8 @@ export class CreateTodoComponent {
     if (!todoName) {
       return;
     }
-
     const todo: Todo = new Todo(todoName);
 
-    this.store.dispatch(createTodoAction({ todo }));
+    this.todoFacade.addTodo(todo);
   }
 }

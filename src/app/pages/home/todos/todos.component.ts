@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Subject, combineLatest, takeUntil } from 'rxjs';
 import { Todo } from '../../../models/todo';
-import { getTodoList, getTodoTitleToSearch } from '../../../store/todo/todos.selectors';
-import { clearSearchTodo, updateTodoStatsAction } from '../../../store/todo/todos.actions';
+import { TodoFacade } from '../../../facades/todo.facade';
 
 @Component({
   selector: 'organizepro-todos',
@@ -13,21 +11,16 @@ import { clearSearchTodo, updateTodoStatsAction } from '../../../store/todo/todo
 export class TodosComponent implements OnInit, OnDestroy {
   // public todos: Todo[] = MockTodos;
   public todos: Todo[] = [];
-  public getTodos$: Observable<Todo[]>;
-  public getTodoTitleToSearch$: Observable<string>;
   public isSearch: boolean = false;
   private onDestroy$: Subject<void> = new Subject();
 
-  constructor(private store: Store) {
-    this.getTodos$ = this.store.select(getTodoList);
-    this.getTodoTitleToSearch$ = this.store.select(getTodoTitleToSearch);
-  }
+  constructor(private todoFacade: TodoFacade) {}
 
   ngOnInit(): void {
     /**
      * Listen for todos state change and todoTitleToSearch state change
      */
-    combineLatest([this.getTodos$, this.getTodoTitleToSearch$])
+    combineLatest([this.todoFacade.todos$, this.todoFacade.todoTitleToSearch$])
       .pipe(takeUntil(this.onDestroy$)) // Avoid memory leaks here
       .subscribe(([todos, todoTitleToSearch]) => {
         if (!todoTitleToSearch) {
@@ -35,7 +28,7 @@ export class TodosComponent implements OnInit, OnDestroy {
           this.todos = todos;
           const totalCompleted: number = this.todos.filter((todo) => todo.completed).length;
           const totalPending: number = this.todos.filter((todo) => !todo.completed).length;
-          this.store.dispatch(updateTodoStatsAction({ totalCompleted, totalPending }));
+          this.todoFacade.updatetTodoStats(totalCompleted, totalPending);
         } else {
           this.todos = todos.filter((todo) => todo.title.includes(todoTitleToSearch));
           this.isSearch = true;
@@ -43,8 +36,13 @@ export class TodosComponent implements OnInit, OnDestroy {
       });
   }
 
-  clearSearch(): void {
-    this.store.dispatch(clearSearchTodo());
+  /**
+   * @memberof TodosComponent
+   * @method clearSearch
+   * @description Clear todo search feature
+   */
+  public clearSearch(): void {
+    this.todoFacade.clearSearch();
   }
 
   ngOnDestroy(): void {

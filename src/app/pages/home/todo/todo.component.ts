@@ -1,11 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Todo } from '../../../models/todo';
-import { Store } from '@ngrx/store';
-import {
-  deleteTodoAction,
-  editTodoAction,
-  toggleTodoAction,
-} from '../../../store/todo/todos.actions';
+import { TodoFacade } from '../../../facades/todo.facade';
 
 @Component({
   selector: 'organizepro-todo',
@@ -16,7 +11,7 @@ export class TodoComponent {
   @Input() public todo: Todo = new Todo('');
   public isEdit: boolean = false;
 
-  constructor(private store: Store) {}
+  constructor(private todoFacade: TodoFacade) {}
 
   /**
    * @memberof TodoComponent
@@ -29,7 +24,7 @@ export class TodoComponent {
       return;
     }
     this.isEdit = false;
-    this.store.dispatch(editTodoAction({ currentTodo: this.todo, newTitle: todoTextUpdated }));
+    this.todoFacade.editTodo(this.todo, todoTextUpdated);
   }
 
   /**
@@ -38,7 +33,7 @@ export class TodoComponent {
    * @description Method to handle the todo checkbox.
    */
   public handleTodoCheckbox(): void {
-    this.store.dispatch(toggleTodoAction({ todoToUpdate: this.todo }));
+    this.todoFacade.toggleTodo(this.todo);
   }
 
   /**
@@ -48,6 +43,6 @@ export class TodoComponent {
    * @param id
    */
   public deleteTodo(id: number): void {
-    this.store.dispatch(deleteTodoAction({ id }));
+    this.todoFacade.deleteTodo(id);
   }
 }
