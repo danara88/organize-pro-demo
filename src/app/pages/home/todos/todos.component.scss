@@ -7,8 +7,15 @@
 }
 
 .todos {
-  &__title {
+  &__header {
+    display: flex;
+    align-items: center;
     margin-bottom: 1.7rem;
+    justify-content: space-between;
+    span {
+      color: $organizepro-blue;
+      font-size: 1.5rem;
+    }
   }
   &__content {
     height: 100%;

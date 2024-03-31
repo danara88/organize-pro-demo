@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Todo } from '../../../models/todo';
-import { getTodos } from '../../../store/todo/todos.selectors';
+import { getTodoList, getTodoTitleToSearch } from '../../../store/todo/todos.selectors';
+import { clearSearchTodo, updateTodoStatsAction } from '../../../store/todo/todos.actions';
 
 @Component({
   selector: 'organizepro-todos',
@@ -13,16 +14,37 @@ export class TodosComponent implements OnInit, OnDestroy {
   // public todos: Todo[] = MockTodos;
   public todos: Todo[] = [];
   public getTodos$: Observable<Todo[]>;
+  public getTodoTitleToSearch$: Observable<string>;
+  public isSearch: boolean = false;
   private onDestroy$: Subject<void> = new Subject();
 
   constructor(private store: Store) {
-    this.getTodos$ = this.store.select(getTodos);
+    this.getTodos$ = this.store.select(getTodoList);
+    this.getTodoTitleToSearch$ = this.store.select(getTodoTitleToSearch);
   }
 
   ngOnInit(): void {
-    this.getTodos$.pipe(takeUntil(this.onDestroy$)).subscribe((todos) => {
-      this.todos = todos;
-    });
+    /**
+     * Listen for todos state change and todoTitleToSearch state change
+     */
+    combineLatest([this.getTodos$, this.getTodoTitleToSearch$])
+      .pipe(takeUntil(this.onDestroy$)) // Avoid memory leaks here
+      .subscribe(([todos, todoTitleToSearch]) => {
+        if (!todoTitleToSearch) {
+          this.isSearch = false;
+          this.todos = todos;
+          const totalCompleted: number = this.todos.filter((todo) => todo.completed).length;
+          const totalPending: number = this.todos.filter((todo) => !todo.completed).length;
+          this.store.dispatch(updateTodoStatsAction({ totalCompleted, totalPending }));
+        } else {
+          this.todos = todos.filter((todo) => todo.title.includes(todoTitleToSearch));
+          this.isSearch = true;
+        }
+      });
+  }
+
+  clearSearch(): void {
+    this.store.dispatch(clearSearchTodo());
   }
 
   ngOnDestroy(): void {

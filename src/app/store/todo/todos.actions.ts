@@ -23,7 +23,31 @@ export const editTodoAction = createAction(
 export const toggleTodoAction = createAction('[TODO] Toggle todo', props<{ todoToUpdate: Todo }>());
 
 /**
- * @constant deleteTodo
+ * @constant deleteTodoAction
  * @description Deletes todo from the store
  */
 export const deleteTodoAction = createAction('[TODO] Delete todo', props<{ id: number }>());
+
+/**
+ * @constant updateTodoStatsAction
+ * @description Updates todo stats
+ */
+export const updateTodoStatsAction = createAction(
+  '[TODO] Update todo stats',
+  props<{ totalCompleted: number; totalPending: number }>()
+);
+
+/**
+ * @constant searchTodo
+ * @description Updates todo title search inside store
+ */
+export const searchTodo = createAction(
+  '[TODO] Search todo',
+  props<{ todoTitleToSearch: string }>()
+);
+
+/**
+ * @constant clearSearchTodo
+ * @description Clears todo search
+ */
+export const clearSearchTodo = createAction('[TODO] Clear search todo');

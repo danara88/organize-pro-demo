@@ -2,10 +2,13 @@ import { createReducer, on } from '@ngrx/store';
 import { TodosAppState } from './models/todos.state';
 import { INITIAL_TODOS_STATE } from './models/initial.todos.state';
 import {
+  clearSearchTodo,
   createTodoAction,
   deleteTodoAction,
   editTodoAction,
+  searchTodo,
   toggleTodoAction,
+  updateTodoStatsAction,
 } from './todos.actions';
 import { Todo } from '../../models/todo';
 
@@ -16,10 +19,10 @@ export const todosReducer = createReducer<TodosAppState>(
   INITIAL_TODOS_STATE,
   on(createTodoAction, (state, { todo }) => ({
     ...state,
-    todos: [...state.todos, todo],
+    todoList: [...state.todoList, todo],
   })),
   on(editTodoAction, (state, { currentTodo, newTitle }) => {
-    const newTodosArr: Todo[] = state.todos.map((todo) => {
+    const newTodosArr: Todo[] = state.todoList.map((todo) => {
       if (todo.id === currentTodo.id) {
         return {
           ...todo,
@@ -28,14 +31,15 @@ export const todosReducer = createReducer<TodosAppState>(
       }
       return todo;
     });
-
+    const pendingTodos: number = newTodosArr.filter((todo) => !todo.completed).length;
     return {
       ...state,
-      todos: [...newTodosArr],
+      pendingTodos,
+      todoList: [...newTodosArr],
     };
   }),
   on(toggleTodoAction, (state, { todoToUpdate }) => {
-    const newTodosArr: Todo[] = state.todos.map((todo) => {
+    const newTodosArr: Todo[] = state.todoList.map((todo) => {
       if (todo.id === todoToUpdate.id) {
         return {
           ...todo,
@@ -47,14 +51,27 @@ export const todosReducer = createReducer<TodosAppState>(
 
     return {
       ...state,
-      todos: [...newTodosArr],
+      todoList: [...newTodosArr],
     };
   }),
   on(deleteTodoAction, (state, { id }) => {
-    const newTodosArr: Todo[] = state.todos.filter((todo) => todo.id !== id);
+    const newTodosArr: Todo[] = state.todoList.filter((todo) => todo.id !== id);
     return {
       ...state,
-      todos: [...newTodosArr],
+      todoList: [...newTodosArr],
     };
-  })
+  }),
+  on(updateTodoStatsAction, (state, { totalCompleted, totalPending }) => ({
+    ...state,
+    completedTodos: totalCompleted,
+    pendingTodos: totalPending,
+  })),
+  on(searchTodo, (state, { todoTitleToSearch }) => ({
+    ...state,
+    todoTitleToSearch,
+  })),
+  on(clearSearchTodo, (state) => ({
+    ...state,
+    todoTitleToSearch: null,
+  }))
 );

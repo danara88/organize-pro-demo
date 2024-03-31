@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { searchTodo } from '../../../../store/todo/todos.actions';
 
 @Component({
   selector: 'organizepro-search',
@@ -6,14 +8,17 @@ import { Component } from '@angular/core';
   styleUrl: './search.component.scss',
 })
 export class SearchComponent {
+  constructor(private store: Store) {}
   /**
    * @memberof SearchComponent
    * @method searchTodo
-   * @description Search todo's
+   * @description Search todos
    * @param searchText
    */
   public searchTodo(searchText: string): void {
-    // Search todo logic here
-    console.log({ searchText });
+    if (!searchText) {
+      return;
+    }
+    this.store.dispatch(searchTodo({ todoTitleToSearch: searchText }));
   }
 }
