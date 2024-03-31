@@ -1,4 +1,4 @@
-import { User } from '../../../models/user';
+import { User } from '../../../models/account';
 
 /**
  * Account app state structure

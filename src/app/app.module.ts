@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducers } from './app.reducers';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { EffectsArray } from './store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +16,10 @@ import { appReducers } from './app.reducers';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    EffectsModule.forRoot(EffectsArray),
   ],
   providers: [],
   bootstrap: [AppComponent],
