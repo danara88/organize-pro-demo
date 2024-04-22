@@ -4,12 +4,12 @@
       <organizepro-checkbox
         [id]="todo.id"
         (isChecked)="handleTodoCheckbox()"
-        [checked]="this.todo.completed"
+        [checked]="todo.completed"
       ></organizepro-checkbox>
       <div
         *ngIf="!isEdit"
         class="todo__title"
-        [ngClass]="{ 'todo__title--crossed': this.todo.completed }"
+        [ngClass]="{ 'todo__title--crossed': todo.completed }"
         (dblclick)="isEdit = true"
       >
         <span>{{ todo.title | slice: 0 : 45 }} {{ todo.title.length > 45 ? '...' : '' }} </span>
